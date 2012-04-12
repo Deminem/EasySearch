@@ -1,0 +1,129 @@
+#{set 'moreStyles'}
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/tags.css'}" />
+#{/set}
+
+<script type="text/javascript">
+    var index= new Array(15);
+    var neg=new Array(15);
+  
+    var ids = [];
+    function pickId(id,num){
+        console.debug(id);
+        ids.push(id);
+        console.debug(ids);
+        if(num)
+            {
+                
+            }else{
+               index[num]++; 
+            }
+        
+        
+    }
+    function neg(a){
+        neg[a]++;
+        document.getElementById(a+"b").value=neg[a];
+        
+        console.debug(neg[a]);
+    }
+    function urf(){
+        var url = "@{Application.userRelevanceFeedback()}?ids="+ids;
+        window.location=url;
+        
+    }
+</script>
+
+
+${time}
+
+     
+<div class="post ">
+    <h2 class="post-title">
+        <a href="">Search Results</a>
+    </h2>
+    <div class="post-metadata">
+        <span class="post-author">Query time:</span>,
+        <span style="color: white">${time}</span>
+        <span class="post-date">milliseconds</span>
+                    <span class="post-comments">
+                &nbsp;|&nbsp; condition: insert condition here with or without relevance feedback!!!
+                            </span>
+    </div>
+    
+    <div class="post-content">
+        <div id="crud">
+            <div id="crudContent">
+                <div id="crudList" class="Tags">
+                    <div id="crudListTable">
+                        <table style="width: 100%">
+                            <thead style="color: #B8C569">
+                                <tr style="height: 40px; text-align: center; background: #B8C569" bgcolor="#B8C569">
+                                    <th style="color: #3C4313">
+                                        Document Rank
+                                    </th>
+                                    <th style="color: #3C4313">
+                                        Document ID
+                                    </th>
+                                    <th style="color: #3C4313">
+                                        Text Highlight
+                                    </th>
+                                    <th style="color: #3C4313">
+                                        Document Score
+                                    </th>
+                                    <th style="color: #3C4313">
+                                        Rank Up
+                                    </th>
+                                    <th style="color: #3C4313">
+                                        Rank Down
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                #{list items:results, as:'result'}
+                                <tr class="${result_parity}" style="height: 30px;">
+                                    <td>${result_index}</td><td>${result.docId}</td><td>${result.higlightedText}</td><td>${result.score}</td>
+                                    <td><img src="/public/images/up.png" onclick="pickId(${result.id},${result_index})"/><div id="${result_index}a"></div></td>
+                                    <td><img src="/public/images/down.png" onclick="pickId('-'+${result.id},${result_index});neg(${result_index})"/><div id="${result_index}b"></div></td>
+                    
+                                </tr>
+                                #{/list}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+<div class="older-posts">
+    <div class="post teaser">
+    <h2 class="post-title">
+        <a href="">Perform  Relevance Feedback on this Query</a>
+    </h2>
+    </div>
+</div>
+
+
+
+    <div class="comments">
+        <div class="comment">
+            <div class="comment-metadata">
+                <span class="comment-author">User Relevance</span>
+                <span class="comment-date">Feedback</span>
+            </div>
+            <div class="comment-content">
+                <div class="about">Detail: </div>
+                <a href="#" onclick="urf()">Perform User Relevance Feedback</a><br/>
+            </div>
+        </div>
+        <br/>
+
+    </div>
+
+
+    
+
+     
